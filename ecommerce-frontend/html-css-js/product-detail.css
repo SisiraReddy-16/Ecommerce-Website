@@ -1,0 +1,107 @@
+/* product-detail.css — styling specific to the product detail screen */
+
+.back-link {
+  display: inline-block;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.back-link:hover {
+  color: var(--text-primary);
+}
+
+.detail-card {
+  display: flex;
+  gap: 32px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  flex-wrap: wrap;
+}
+
+.detail-card__thumb {
+  width: 180px;
+  height: 180px;
+  flex-shrink: 0;
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.detail-card__body {
+  flex: 1;
+  min-width: 220px;
+}
+
+.detail-card__id {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 0 0 10px;
+}
+
+.detail-card__body h1 {
+  font-size: 26px;
+  margin: 0 0 10px;
+  letter-spacing: -0.01em;
+}
+
+.detail-card__price {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent-hover);
+  margin: 0 0 28px;
+}
+
+.detail-card__actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* ---------- Confirm delete overlay (shared pattern) ---------- */
+
+.confirm-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 28, 30, 0.4);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 50;
+}
+
+.confirm-overlay.is-visible {
+  display: flex;
+}
+
+.confirm-box {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 24px;
+  max-width: 340px;
+  width: 100%;
+}
+
+.confirm-box h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+}
+
+.confirm-box p {
+  margin: 0 0 20px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.confirm-box__actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}

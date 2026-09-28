@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shop — All Products</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css" />
+<link rel="stylesheet" href="product-list.css" />
+</head>
+<body>
+
+  <nav class="top-nav">
+    <div class="top-nav__inner">
+      <div class="top-nav__brand">Simple<span>Shop</span></div>
+      <div class="top-nav__links">
+        <a href="product-list.html" class="top-nav__link is-active">All Products</a>
+        <a href="add-product.html" class="top-nav__link">Add Product</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-shell">
+
+    <header class="list-header">
+      <div>
+        <h1>All Products</h1>
+        <p class="list-header__subtitle">Everything currently in the catalog.</p>
+      </div>
+      <a href="add-product.html" class="btn btn-primary">+ Add Product</a>
+    </header>
+
+    <div id="banner" class="banner banner-error"></div>
+
+    <div id="loading" class="spinner"></div>
+
+    <div id="emptyState" class="empty-state" style="display:none;">
+      <h3>No products yet</h3>
+      <p>Add your first product to see it listed here.</p>
+      <a href="add-product.html" class="btn btn-primary" style="margin-top:16px;">Add a product</a>
+    </div>
+
+    <div id="productGrid" class="product-grid"></div>
+
+  </main>
+
+  <!-- Confirm delete dialog -->
+  <div id="confirmOverlay" class="confirm-overlay">
+    <div class="confirm-box">
+      <h3>Remove this product?</h3>
+      <p id="confirmText">This action can't be undone.</p>
+      <div class="confirm-box__actions">
+        <button class="btn btn-secondary" id="cancelDeleteBtn">Cancel</button>
+        <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="product-list.js"></script>
+</body>
+</html>

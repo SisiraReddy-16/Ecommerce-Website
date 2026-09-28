@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shop — Product Details</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css" />
+<link rel="stylesheet" href="product-detail.css" />
+</head>
+<body>
+
+  <nav class="top-nav">
+    <div class="top-nav__inner">
+      <div class="top-nav__brand">Simple<span>Shop</span></div>
+      <div class="top-nav__links">
+        <a href="product-list.html" class="top-nav__link">All Products</a>
+        <a href="add-product.html" class="top-nav__link">Add Product</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-shell">
+
+    <a href="product-list.html" class="back-link">&larr; Back to all products</a>
+
+    <div id="banner" class="banner banner-error"></div>
+
+    <div id="loading" class="spinner"></div>
+
+    <div id="notFoundState" class="empty-state" style="display:none;">
+      <h3>Product not found</h3>
+      <p>It may have been removed already.</p>
+      <a href="product-list.html" class="btn btn-primary" style="margin-top:16px;">Back to catalog</a>
+    </div>
+
+    <section id="detailCard" class="detail-card" style="display:none;">
+      <div id="detailThumb" class="detail-card__thumb"></div>
+      <div class="detail-card__body">
+        <p class="detail-card__id">Product ID: <span id="detailId"></span></p>
+        <h1 id="detailName"></h1>
+        <p class="detail-card__price" id="detailPrice"></p>
+        <div class="detail-card__actions">
+          <button id="deleteBtn" class="btn btn-danger">Delete Product</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="confirmOverlay" class="confirm-overlay">
+    <div class="confirm-box">
+      <h3>Remove this product?</h3>
+      <p>This action can't be undone.</p>
+      <div class="confirm-box__actions">
+        <button class="btn btn-secondary" id="cancelDeleteBtn">Cancel</button>
+        <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="product-detail.js"></script>
+</body>
+</html>

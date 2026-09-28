@@ -1,0 +1,138 @@
+Deployment Pipeline:- 
+
+                 ┌─────────────────────┐
+                 │     TERRAFORM       │
+                 │ Infrastructure IaC  │
+                 └──────────┬──────────┘
+                            ↓
+                     AWS Environment
+                            ↓
+                 ┌─────────────────────┐
+                 │       ANSIBLE       │
+                 │ Configuration Mgmt  │
+                 └──────────┬──────────┘
+                            ↓
+                  Environment Prepared
+                            ↓
+══════════════════════════════════════════════
+                    CI/CD PIPELINE
+══════════════════════════════════════════════
+                            ↓
+                         GitHub
+                            ↓
+                         Jenkins
+                            ↓
+                          Maven
+                            ↓
+                       SonarQube
+                            ↓
+                          Nexus
+                            ↓
+                         Docker
+                            ↓
+                          ECR
+                            ↓
+                       Kubernetes
+                            ↓
+             ┌──────────────┼──────────────┐
+             ↓              ↓              ↓
+          Frontend        Backend         MySQL
+             │              │
+             └──────────────┼──────────────┘
+                            ↓
+                           HPA
+
+How to run the file in localhost:
+1 cd ecommerce-backend
+2 mvn spring-boot:run
+
+3 cd ecommerce-frontend/html-css-js
+4 python -m http.server 5500
+
+5 cd ecommerce-frontend/react-version
+6 npm install
+7 npm run dev
+
+
+Ansible playbook.yml
+---
+- name: Configure Kubernetes Server
+  hosts: kubernetes
+  become: yes
+
+  tasks:
+
+    - name: Update apt packages
+      apt:
+        update_cache: yes
+
+    - name: Install required packages
+      apt:
+        name:
+          - curl
+          - wget
+          - git
+          - apt-transport-https
+          - ca-certificates
+          - containerd
+          - gnupg
+        state: present
+
+    - name: Create containerd configuration directory
+      file:
+        path: /etc/containerd
+        state: directory
+
+    - name: Generate containerd configuration
+      shell: containerd config default > /etc/containerd/config.toml
+      args:
+        creates: /etc/containerd/config.toml
+
+    - name: Enable SystemdCgroup
+      replace:
+        path: /etc/containerd/config.toml
+        regexp: 'SystemdCgroup = false'
+        replace: 'SystemdCgroup = true'
+
+    - name: Restart containerd
+      systemd:
+        name: containerd
+        state: restarted
+        enabled: yes
+
+    - name: Create Kubernetes keyring directory
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+
+    - name: Add Kubernetes GPG key
+      shell: |
+        curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.34/deb/Release.key |
+        gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+      args:
+        creates: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+    - name: Add Kubernetes repository
+      apt_repository:
+        repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.34/deb/ /"
+        state: present
+        filename: kubernetes
+
+    - name: Install Kubernetes packages
+      apt:
+        name:
+          - kubelet
+          - kubeadm
+          - kubectl
+        state: present
+        update_cache: yes
+
+    - name: Hold Kubernetes packages
+      dpkg_selections:
+        name: "{{ item }}"
+        selection: hold
+      loop:
+        - kubelet
+        - kubeadm
+        - kubectl
